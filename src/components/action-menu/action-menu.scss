@@ -1,3 +1,21 @@
+@keyframes openMenu {
+    0% {
+        top: 70px;
+    }
+    100% {
+        top: 90px;
+    }
+}
+
+@keyframes closeMenu {
+    0% {
+        top: 90px;
+    }
+    100% {
+        top: 70px;
+    }
+}
+
 .action-menu {
     display: flex;
     align-items: center;
@@ -9,4 +27,39 @@
     height: 15px;
     border-radius: 50%;
     background-color: var(--orange);
+}
+
+.context-menu {
+    position: absolute;
+    right: 20px;
+    top: 90px;
+    padding: 20px;
+    border: 1px solid var(--brown);
+    cursor: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    animation: openMenu 0.5s;
+    border-radius: 7px;
+}
+
+.context-menu__list {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+}
+
+.context-menu__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--brown);
+}
+
+.context-menu__item button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--brown);
 }

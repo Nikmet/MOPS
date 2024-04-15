@@ -1,18 +1,26 @@
-import { VanillaContextMenu } from "vanilla-context-menu";
 import { Component } from "./../../common/component.js";
 import "./action-menu.scss";
 
 export class ActionMenu extends Component {
     constructor() {
         super("button", "action-menu");
+        this.arrOfActions = [
+            { name: "Ответить", path: "./static/answer.svg" },
+            { name: "Переслать", path: "./static/send-arrow.svg" },
+            { name: "СПАМ!", path: "./static/spam.svg" },
+            { name: "Прочитать", path: "./static/read.svg" },
+            { name: "Избранное", path: "./static/favorites.svg" },
+            { name: "Удалить", path: "./static/close-brown.svg" },
+        ];
+        this.opened = false;
     }
 
-    createMenuItem(imagePath, alt) {
+    createMenuItem(imagePath, name) {
         const html = `
             <li class="context-menu__item">
                 <button>
-                    <img src="${imagePath}" alt="${alt}">
-                    Ответить
+                    <img src="${imagePath}" alt="${name}">
+                    ${name}
                 </button>
             </li>
         `;
@@ -35,6 +43,10 @@ export class ActionMenu extends Component {
         return this.element;
     }
 
+    removeActionMenu() {
+        this.element.querySelector(".context-menu").remove();
+    }
+
     render() {
         const html = `
             <div class="action-menu__crumb"></div>
@@ -42,10 +54,18 @@ export class ActionMenu extends Component {
             <div class="action-menu__crumb"></div>
         `;
 
-        this.element.addEventListener("click", () => {
-            this.createActionMenu();
-            for (let i = 0; i < 1; i++) {
-                this.createMenuItem("", "Отправить");
+        this.element.addEventListener("click", event => {
+            if (!event.target.closest(".context-menu")) {
+                if (!this.opened) {
+                    this.createActionMenu();
+                    for (const item of this.arrOfActions) {
+                        this.createMenuItem(item.path, item.name);
+                    }
+                    this.opened = true;
+                } else {
+                    this.removeActionMenu();
+                    this.opened = false;
+                }
             }
         });
 

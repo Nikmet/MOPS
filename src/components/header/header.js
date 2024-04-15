@@ -1,4 +1,3 @@
-import { MainView } from "../../views/main/mainView.js";
 import { ActionMenu } from "../action-menu/action-menu.js";
 import { Search } from "../search/search.js";
 import { Component } from "./../../common/component.js";
@@ -18,7 +17,6 @@ export class Header extends Component {
         `;
         this.element.insertAdjacentHTML("beforeend", html);
 
-        //! ПОФИКСИТЬ (при изменение роута менять view)
         if (this.appState.isMainPage) {
             this.element.append(new Search().render());
         }
