@@ -1,13 +1,14 @@
 import onChange from "on-change";
 import { AbstractView } from "../../common/view";
 import { Header } from "../../components/header/header";
+import { Main } from "../../components/main/main.js";
 
 export class MainView extends AbstractView {
     constructor(appState) {
         super();
         this.appState = appState;
         this.appState = onChange(this.appState, this.appStateHook.bind(this));
-        this.seTitle("MOPS email - Главная");
+        this.seTitle("MOPS email - Входящие");
     }
 
     destroy() {
@@ -23,5 +24,6 @@ export class MainView extends AbstractView {
     render() {
         this.app.innerHTML = "";
         this.app.append(new Header(this.appState).render());
+        this.app.append(new Main().render());
     }
 }
