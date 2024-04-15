@@ -2,4 +2,42 @@
     background-color: var(--orange);
     height: 93vh;
     width: 100%;
+    padding: 30px;
+    overflow-y: scroll;
+}
+
+.emails-list::-webkit-scrollbar {
+    width: 15px; /* ширина scrollbar */
+}
+.emails-list::-webkit-scrollbar-track {
+    background: var(--orange); /* цвет дорожки */
+}
+.emails-list::-webkit-scrollbar-thumb {
+    background-color: var(--brown); /* цвет плашки */
+    border-radius: 20px; /* закругления плашки */
+    border: 3px solid var(--orange); /* padding вокруг плашки */
+}
+
+.emails-list__title {
+    display: flex;
+    align-items: center;
+}
+
+.emails-list__title p {
+    font-size: 44px;
+    font-weight: 700;
+    color: var(--brown);
+    margin-right: 20px;
+}
+
+.emails-list__title button {
+    transition: all 0.5s;
+}
+
+.emails-list__title button:hover {
+    transform: rotate(180deg);
+}
+
+.emails-list__title > img {
+    margin-left: -22px;
 }
