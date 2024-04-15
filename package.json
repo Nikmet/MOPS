@@ -1,0 +1,25 @@
+{
+    "name": "book_colection",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "start": "live-server --browser=chrome",
+        "rollup": "rollup -c --watch",
+        "sass": "node-sass ./static/global.scss ./static/global.css -w",
+        "build": "concurrently --kill-others \"npm run rollup\" \"npm run sass\""
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@rollup/plugin-node-resolve": "^15.2.3",
+        "concurrently": "^8.2.2",
+        "node-sass": "^9.0.0",
+        "rollup": "^4.14.2",
+        "rollup-plugin-scss": "^4.0.0",
+        "sass": "^1.75.0"
+    },
+    "dependencies": {
+        "on-change": "^5.0.1"
+    }
+}

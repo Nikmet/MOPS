@@ -1,0 +1,12 @@
+.action-menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.action-menu__crumb {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--orange);
+}
