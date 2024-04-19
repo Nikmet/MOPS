@@ -2,8 +2,9 @@ import { Component } from "./../../common/component.js";
 import "./search.scss";
 
 export class Search extends Component {
-    constructor() {
+    constructor(appState) {
         super("div", "search");
+        this.appState = appState;
     }
 
     render() {
@@ -18,12 +19,21 @@ export class Search extends Component {
             </div>
             <div class="search__input">
                 <input type="text" placeholder="Поиск по теме...">
-                <button>
+                <button class="filter-btn">
                     <img src="./static/search-brown.svg" alt="Поиск">
                 </button>
             </div>
         `;
+
         this.element.insertAdjacentHTML("beforeend", html);
+
+        this.element.addEventListener("click", (e) => {
+            if (e.target.closest(".filter-btn")) {
+                e.preventDefault();
+                this.appState.filterQuery = this.element.querySelector("input").value;
+            }
+        });
+
         return this.element;
     }
 }

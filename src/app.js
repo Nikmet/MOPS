@@ -6,6 +6,7 @@ class App {
 
     appState = {
         isMainPage: false,
+        filterQuery: "",
     };
 
     constructor() {

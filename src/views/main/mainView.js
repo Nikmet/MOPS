@@ -4,6 +4,7 @@ import { Header } from "../../components/header/header";
 import { Main } from "../../components/main/main.js";
 
 export class MainView extends AbstractView {
+
     constructor(appState) {
         super();
         this.appState = appState;
@@ -16,14 +17,17 @@ export class MainView extends AbstractView {
     }
 
     appStateHook(path) {
-        if (path === "#") {
+        if (path === "isMainView") {
+            this.render();
+        }
+        if (path === "filterQuery") {
             this.render();
         }
     }
 
-    render() {
+    async render() {
         this.app.innerHTML = "";
         this.app.append(new Header(this.appState).render());
-        this.app.append(new Main().render());
+        this.app.append(await new Main(this.appState).render());
     }
 }

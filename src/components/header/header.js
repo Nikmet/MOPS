@@ -18,7 +18,7 @@ export class Header extends Component {
         this.element.insertAdjacentHTML("beforeend", html);
 
         if (this.appState.isMainPage) {
-            this.element.append(new Search().render());
+            this.element.append(new Search(this.appState).render());
         }
         this.element.append(new ActionMenu().render());
         return this.element;

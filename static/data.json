@@ -1,0 +1,14 @@
+{
+    "data": [
+        {
+            "sender": "metlov.nm@yandex.ru",
+            "title": "Привет, как дела?",
+            "theme": "Общение"
+        },
+        {
+            "sender": "metlov.nm@yandex.ru",
+            "title": "Когда сдашь проект?",
+            "theme": "Работа"
+        }
+    ]
+}

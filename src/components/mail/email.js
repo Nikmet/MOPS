@@ -2,8 +2,10 @@ import { Component } from "../../common/component.js";
 import "./email.scss";
 
 export class Email extends Component {
-    constructor() {
+    constructor(data) {
         super("div", "email");
+        this.data = data;
+        this.theme = data.theme;
     }
 
     render() {
@@ -13,8 +15,8 @@ export class Email extends Component {
                     <img src="./static/photo.jpg" alt="фото">
                 </div>
                 <div class="email__text">
-                    <div class="email__sender">metlov.nm@yandex.ru</div>
-                    <div class="email__title">Здорово, ублюдок, когда косарь вернешь?</div>
+                    <div class="email__sender">${this.data.sender}</div>
+                    <div class="email__title">${this.data.title}</div>
                 </div>
             </div>
             <div class="email__buttons">

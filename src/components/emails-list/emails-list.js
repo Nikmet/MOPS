@@ -8,7 +8,14 @@ export class EmailslList extends Component {
         this.appState = appState;
     }
 
-    render() {
+    async getData() {
+        const response = await fetch("./static/data.json");
+        const data = await response.json();
+        return data.data;
+        this.filterData;
+    }
+
+    async render() {
         const html = `
             <div class="emails-list__title">
                 <img src="./static/email.svg" alt="email">
@@ -20,17 +27,20 @@ export class EmailslList extends Component {
         `;
         this.element.insertAdjacentHTML("beforeend", html);
 
-        this.element.append(new Email().render());
-        this.element.append(new Email().render());
-        this.element.append(new Email().render());
-        this.element.append(new Email().render());
-        this.element.append(new Email().render());
-        this.element.append(new Email().render());
-        this.element.append(new Email().render());
-        this.element.append(new Email().render());
-        this.element.append(new Email().render());
-        this.element.append(new Email().render());
-        this.element.append(new Email().render());
+        const data = await this.getData();
+
+        if (this.appState.filterQuery !== "") {
+            this.filterData = data.filter(email => {
+                return email.theme === this.appState.filterQuery;
+            });
+            console.log(this.filterData);
+        } else {
+            this.filterData = data;
+        }
+
+        for (const email of this.filterData) {
+            this.element.append(new Email(email).render());
+        }
 
         return this.element;
     }

@@ -4,13 +4,14 @@ import { Component } from "./../../common/component.js";
 import "./main.scss";
 
 export class Main extends Component {
-    constructor() {
+    constructor(appState) {
         super("main", "main");
+        this.appState = appState;
     }
 
-    render() {
-        this.element.append(new Menu(this.appState).render());
-        this.element.append(new EmailslList(this.appState).render());
+    async render() {
+        this.element.append(new Menu().render());
+        this.element.append(await new EmailslList(this.appState).render());
         return this.element;
     }
 }
