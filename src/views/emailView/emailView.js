@@ -3,12 +3,12 @@ import { AbstractView } from "../../common/view";
 import { Header } from "../../components/header/header";
 import { Main } from "../../components/main/main.js";
 
-export class MainView extends AbstractView {
+export class EmalView extends AbstractView {
     constructor(appState) {
         super();
         this.appState = appState;
         this.appState = onChange(this.appState, this.appStateHook.bind(this));
-        this.seTitle("MOPS email - Входящие");
+        this.seTitle("MOPS email - Новое письмо");
     }
 
     destroy() {

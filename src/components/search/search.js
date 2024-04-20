@@ -27,10 +27,19 @@ export class Search extends Component {
 
         this.element.insertAdjacentHTML("beforeend", html);
 
-        this.element.addEventListener("click", (e) => {
+        this.element.addEventListener("click", e => {
             if (e.target.closest(".filter-btn")) {
                 e.preventDefault();
                 this.appState.filterQuery = this.element.querySelector("input").value;
+                this.element.querySelector("input").focus();
+            }
+        });
+
+        this.element.addEventListener("keydown", e => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                this.appState.filterQuery = this.element.querySelector("input").value;
+                this.element.querySelector("input").focus();
             }
         });
 

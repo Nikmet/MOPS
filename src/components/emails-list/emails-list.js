@@ -3,16 +3,17 @@ import { Component } from "./../../common/component.js";
 import "./email-list.scss";
 
 export class EmailslList extends Component {
+    #filterData;
+
     constructor(appState) {
         super("div", "emails-list");
         this.appState = appState;
     }
 
-    async getData() {
-        const response = await fetch("./static/data.json");
+    async getData(type) {
+        const response = await fetch(`./static/${type}.json`);
         const data = await response.json();
         return data.data;
-        this.filterData;
     }
 
     async render() {
@@ -27,18 +28,17 @@ export class EmailslList extends Component {
         `;
         this.element.insertAdjacentHTML("beforeend", html);
 
-        const data = await this.getData();
+        const data = await this.getData("data");
 
         if (this.appState.filterQuery !== "") {
-            this.filterData = data.filter(email => {
+            this.#filterData = data.filter(email => {
                 return email.theme === this.appState.filterQuery;
             });
-            console.log(this.filterData);
         } else {
-            this.filterData = data;
+            this.#filterData = data;
         }
 
-        for (const email of this.filterData) {
+        for (const email of this.#filterData) {
             this.element.append(new Email(email).render());
         }
 

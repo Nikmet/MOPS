@@ -1,11 +1,14 @@
 import { MainView } from "./views/main/mainView";
 import "./common/reset.scss";
+import { EmalView } from "./views/emailView/emailView";
 
 class App {
-    routes = [{ path: "", view: MainView }];
-
+    routes = [
+        { path: "", view: MainView },
+        { path: "#email", view: EmalView },
+    ];
+    currentView;
     appState = {
-        isMainPage: false,
         filterQuery: "",
     };
 
@@ -21,12 +24,7 @@ class App {
 
         const view = this.routes.find(r => r.path == location.hash).view;
         this.currentView = new view(this.appState);
-        if (this.currentView instanceof MainView) {
-            this.appState.isMainPage = true;
-        } else {
-            this.appState.isMainPage = false;
-        }
-        this.currentView.render();
+        this.currentView.render(this.currentView);
     }
 }
 

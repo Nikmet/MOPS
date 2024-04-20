@@ -9,10 +9,10 @@ export class Menu extends Component {
 
     render() {
         const html = `
-            <button class="new-email-btn">
+            <a href="#email" class="new-email-btn">
                 <img src="./static/new-email.svg" alt="Написать письмо">
                 Написать письмо
-            </button>
+            </a>
             <ul class="menu__list">
                 <li class="menu__item">
                     <img src="./static/arrow-brown.svg" alt="стрелка">

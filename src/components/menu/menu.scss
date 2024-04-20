@@ -27,6 +27,12 @@
     color: var(--brown);
 }
 
+.new-email-btn:link,
+.new-email-btn:active,
+.new-email-btn:visited {
+    color: var(--brown);
+}
+
 .new-email-btn img {
     height: 50px;
 }
