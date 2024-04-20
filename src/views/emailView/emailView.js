@@ -27,6 +27,6 @@ export class EmalView extends AbstractView {
     async render(currentView) {
         this.app.innerHTML = "";
         this.app.append(new Header(this.appState, currentView).render());
-        this.app.append(await new Main(this.appState).render());
+        this.app.append(await new Main(this.appState, currentView).render());
     }
 }
