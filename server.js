@@ -20,7 +20,28 @@ app.get("/dist/app.js", (req, res) => {
     res.setHeader("Content-type", "application/javascript");
     res.sendFile(path.resolve(__dirname, "dist", "app.js"));
 });
+app.get("/api/sendEmail", (req, res) => {
+    fs.readFile("./static/data.json", (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        const emails = JSON.parse(data);
+        emails.data.push({
+            sender: "metlov.nm@yandex.ru",
+            title: "TEST",
+            theme: "TEST",
+        });
 
+        fs.writeFile("./static/data.json", JSON.stringify(emails), err => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            res.send("OK");
+        });
+    });
+});
 
 app.listen(3000);
 

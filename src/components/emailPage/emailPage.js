@@ -6,6 +6,11 @@ export class EmailPage extends Component {
         super("div", "email-page");
     }
 
+    async sendEmail() {
+        // e.preventDefault();
+        const response = await fetch("/api/sendEmail");
+    }
+
     render() {
         const html = `
             <div class="email-page__wrapper">
@@ -56,6 +61,9 @@ export class EmailPage extends Component {
             </div>
         `;
         this.element.insertAdjacentHTML("beforeend", html);
+
+        this.element.querySelector(".email-page__btn-send").addEventListener("click", this.sendEmail);
+
         return this.element;
     }
 }
