@@ -10,49 +10,49 @@ export class Menu extends Component {
     render() {
         const html = `
             <a href="#email" class="new-email-btn">
-                <img src="./static/new-email.svg" alt="Написать письмо">
+                <img src="./new-email.svg" alt="Написать письмо">
                 Написать письмо
             </a>
             <ul class="menu__list">
                 <li class="menu__item">
-                    <img src="./static/arrow-brown.svg" alt="стрелка">
+                    <img src="./arrow-brown.svg" alt="стрелка">
                     <a href="#">
-                        <img src="./static/pow.svg" alt="Входящие">
+                        <img src="./pow.svg" alt="Входящие">
                         Входящие
                     </a>
                 </li>
                 <li class="menu__item">
-                    <img src="./static/arrow-brown.svg" alt="стрелка" class="invissible">
+                    <img src="./arrow-brown.svg" alt="стрелка" class="invissible">
                     <a href="#">
-                        <img src="./static/paper-airplane.svg" alt="Входящие">
+                        <img src="./paper-airplane.svg" alt="Входящие">
                         Отправленные
                     </a>
                 </li>
                 <li class="menu__item">
-                    <img src="./static/arrow-brown.svg" alt="стрелка" class="invissible">
+                    <img src="./arrow-brown.svg" alt="стрелка" class="invissible">
                     <a href="#">
-                        <img src="./static/bone.svg" alt="Входящие">
+                        <img src="./bone.svg" alt="Входящие">
                         Черновики
                     </a>
                 </li>
                 <li class="menu__item">
-                    <img src="./static/arrow-brown.svg" alt="стрелка" class="invissible">
+                    <img src="./arrow-brown.svg" alt="стрелка" class="invissible">
                     <a href="#">
-                        <img src="./static/favorites.svg" alt="Входящие"> 
+                        <img src="./favorites.svg" alt="Входящие"> 
                         Избранное
                     </a>
                 </li>
                 <li class="menu__item">
-                    <img src="./static/arrow-brown.svg" alt="стрелка" class="invissible">
+                    <img src="./arrow-brown.svg" alt="стрелка" class="invissible">
                     <a href="#">
-                        <img src="./static/spam.svg" alt="Входящие">
+                        <img src="./spam.svg" alt="Входящие">
                         СПАМ!
                     </a>
                 </li>
                 <li class="menu__item">
-                    <img src="./static/arrow-brown.svg" alt="стрелка" class="invissible">
+                    <img src="./arrow-brown.svg" alt="стрелка" class="invissible">
                     <a href="#">
-                        <img src="./static/close-brown.svg" alt="Входящие">
+                        <img src="./close-brown.svg" alt="Входящие">
                         Удалённое
                     </a>
                 </li>

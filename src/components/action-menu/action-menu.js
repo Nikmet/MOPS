@@ -5,12 +5,12 @@ export class ActionMenu extends Component {
     constructor() {
         super("button", "action-menu");
         this.arrOfActions = [
-            { name: "Ответить", path: "./static/answer.svg" },
-            { name: "Переслать", path: "./static/send-arrow.svg" },
-            { name: "СПАМ!", path: "./static/spam.svg" },
-            { name: "Прочитать", path: "./static/read.svg" },
-            { name: "Избранное", path: "./static/favorites.svg" },
-            { name: "Удалить", path: "./static/close-brown.svg" },
+            { name: "Ответить", path: "./answer.svg" },
+            { name: "Переслать", path: "./send-arrow.svg" },
+            { name: "СПАМ!", path: "./spam.svg" },
+            { name: "Прочитать", path: "./read.svg" },
+            { name: "Избранное", path: "./favorites.svg" },
+            { name: "Удалить", path: "./close-brown.svg" },
         ];
         this.opened = false;
     }

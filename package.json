@@ -7,19 +7,23 @@
         "start": "live-server --browser=chrome",
         "rollup": "rollup -c --watch",
         "sass": "node-sass ./static/global.scss ./static/global.css -w",
-        "build": "concurrently --kill-others \"npm run rollup\" \"npm run sass\""
+        "build": "concurrently --kill-others \"npm run rollup\" \"npm run sass\"",
+        "server": "nodemon server.js"
     },
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "@rollup/plugin-json": "^6.1.0",
         "@rollup/plugin-node-resolve": "^15.2.3",
         "concurrently": "^8.2.2",
         "node-sass": "^9.0.0",
+        "nodemon": "^3.1.0",
         "rollup": "^4.14.2",
         "rollup-plugin-scss": "^4.0.0",
         "sass": "^1.75.0"
     },
     "dependencies": {
+        "express": "^4.19.2",
         "on-change": "^5.0.1"
     }
 }

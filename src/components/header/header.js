@@ -14,7 +14,7 @@ export class Header extends Component {
     render() {
         const html = `
             <a href="#">
-                <img src="./static/logo.svg" alt="Логотип">
+                <img src="./logo.svg" alt="Логотип">
             </a>
         `;
         this.element.insertAdjacentHTML("beforeend", html);

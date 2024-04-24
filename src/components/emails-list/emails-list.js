@@ -11,7 +11,7 @@ export class EmailslList extends Component {
     }
 
     async getData(type) {
-        const response = await fetch(`./static/${type}.json`);
+        const response = await fetch(`./${type}.json`);
         const data = await response.json();
         return data.data;
     }
@@ -19,10 +19,10 @@ export class EmailslList extends Component {
     async render() {
         const html = `
             <div class="emails-list__title">
-                <img src="./static/email.svg" alt="email">
+                <img src="./email.svg" alt="email">
                 <p>Входящие: ${12}</p>
                 <button>
-                    <img src="./static/reload.svg" alt="reload">
+                    <img src="./reload.svg" alt="reload">
                 </button>
             </div>
         `;

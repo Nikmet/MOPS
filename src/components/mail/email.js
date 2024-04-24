@@ -12,7 +12,7 @@ export class Email extends Component {
         const html = `
             <div class="email__content">
                 <div class="email__img">
-                    <img src="./static/photo.jpg" alt="фото">
+                    <img src="./photo.jpg" alt="фото">
                 </div>
                 <div class="email__text">
                     <div class="email__sender">${this.data.sender}</div>
