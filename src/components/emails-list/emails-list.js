@@ -28,20 +28,27 @@ export class EmailslList extends Component {
         `;
         this.element.insertAdjacentHTML("beforeend", html);
 
-        const data = await this.getData("data");
+        try {
+            const clearFetch = await fetch("/api/clearData");
+            const getFetch = await fetch("/api/getEmails");
 
-        if (this.appState.filterQuery !== "") {
-            this.#filterData = data.filter(email => {
-                return email.theme === this.appState.filterQuery;
-            });
-        } else {
-            this.#filterData = data;
+            const data = await this.getData("data");
+
+            if (this.appState.filterQuery !== "") {
+                this.#filterData = data.filter(email => {
+                    return email.theme === this.appState.filterQuery;
+                });
+            } else {
+                this.#filterData = data;
+            }
+
+            for (const email of this.#filterData) {
+                this.element.append(new Email(email).render());
+            }
+
+            return this.element;
+        } catch (e) {
+            console.log(e);
         }
-
-        for (const email of this.#filterData) {
-            this.element.append(new Email(email).render());
-        }
-
-        return this.element;
     }
 }

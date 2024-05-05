@@ -6,9 +6,26 @@ export class EmailPage extends Component {
         super("div", "email-page");
     }
 
-    async sendEmail() {
-        // e.preventDefault();
-        const response = await fetch("/api/sendEmail");
+    async sendEmail(e) {
+        e.preventDefault();
+
+        const recipient = document.querySelector("#recipient").value;
+        const theme = document.querySelector("#theme").value;
+        const text = document.querySelector("#email-text").value;
+
+        const response = await fetch("/api/sendEmail", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                recipient: String(recipient),
+                theme: String(theme),
+                text: String(text),
+            }),
+        });
+        const data = await response.json();
+        alert(data.message);
     }
 
     render() {
@@ -18,10 +35,7 @@ export class EmailPage extends Component {
                     <div class="email-page__recipients">
                         <p>Кому:</p>
                         <div class="email-page__recipient">
-                            <button>
-                                <img src="./close-brown.svg" alt="remove">
-                            </button>
-                            <p>metlov.nm@yandex.ru</p>
+                            <input type="text" id="recipient">
                         </div>
                     </div>
                     <button>

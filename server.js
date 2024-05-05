@@ -1,7 +1,50 @@
 const fs = require("fs");
+const Imap = require("imap");
+const { simpleParser } = require("mailparser");
 const express = require("express");
 const path = require("path");
+const nodemailer = require("nodemailer");
+const bodyParser = require("body-parser");
+
 const app = express();
+const jsonParser = bodyParser.json();
+
+const PORT = 3000;
+
+// Настройки для подключения к почтовому ящику
+const imapConfig = {
+    user: "metlov.nm@gmail.com",
+    password: "ptcl huvs phea uoqq",
+    host: "imap.gmail.com",
+    port: 993,
+    tls: true,
+    tlsOptions: { servername: "imap.gmail.com" },
+};
+
+function addEmail(parsed) {
+    fs.readFile("./static/data.json", (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        const emails = JSON.parse(data);
+
+        const email = {
+            sender: parsed.from.value[0].address,
+            theme: parsed.subject,
+            favorites: false,
+        };
+
+        emails.data.push(email);
+
+        fs.writeFile("./static/data.json", JSON.stringify(emails), err => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+        });
+    });
+}
 
 app.use(express.static(path.resolve(__dirname, "static")));
 
@@ -20,6 +63,7 @@ app.get("/dist/app.js", (req, res) => {
     res.setHeader("Content-type", "application/javascript");
     res.sendFile(path.resolve(__dirname, "dist", "app.js"));
 });
+
 app.get("/api/sendEmail", (req, res) => {
     fs.readFile("./static/data.json", (err, data) => {
         if (err) {
@@ -27,11 +71,7 @@ app.get("/api/sendEmail", (req, res) => {
             return;
         }
         const emails = JSON.parse(data);
-        emails.data.push({
-            sender: "metlov.nm@yandex.ru",
-            title: "TEST",
-            theme: "TEST",
-        });
+        emails.data.push(req.body);
 
         fs.writeFile("./static/data.json", JSON.stringify(emails), err => {
             if (err) {
@@ -42,57 +82,93 @@ app.get("/api/sendEmail", (req, res) => {
         });
     });
 });
+app.get("/api/clearData", (req, res) => {
+    fs.readFile("./static/data.json", (err, data) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        const emails = JSON.parse(data);
 
-app.listen(3000);
+        emails.data = [];
 
-// const server = http.createServer((req, res) => {
-//     if (req.url === "/") {
-//         fs.readFile("index.html", (err, data) => {
-//             if (err) {
-//                 res.writeHead(500, { "Content-Type": "text/plain" });
-//                 res.write("Error loading index.html");
-//                 res.end();
-//             } else {
-//                 res.writeHead(200, { "Content-Type": "text/html" });
-//                 res.end(data);
-//             }
-//         });
-//     } else if (req.url === "/dist/bundle.css") {
-//         fs.readFile("./dist/bundle.css", (err, data) => {
-//             if (err) {
-//                 res.writeHead(500, { "Content-Type": "text/plain" });
-//                 res.write("Error loading style.css");
-//                 res.end();
-//             } else {
-//                 res.writeHead(200, { "Content-Type": "text/css" });
-//                 res.end(data);
-//             }
-//         });
-//     } else if (req.url === "/static/global.css") {
-//         fs.readFile("./static/global.css", (err, data) => {
-//             if (err) {
-//                 res.writeHead(500, { "Content-Type": "text/plain" });
-//                 res.write("Error loading style.css");
-//                 res.end();
-//             } else {
-//                 res.writeHead(200, { "Content-Type": "text/css" });
-//                 res.end(data);
-//             }
-//         });
-//     } else if (req.url === "/dist/app.js") {
-//         fs.readFile("./dist/app.js", (err, data) => {
-//             if (err) {
-//                 res.writeHead(500, { "Content-Type": "text/plain" });
-//                 res.write("Error loading style.css");
-//                 res.end();
-//             } else {
-//                 res.writeHead(200, { "Content-Type": "application/javascript" });
-//                 res.end(data);
-//             }
-//         });
-//     }
-// });
+        fs.writeFile("./static/data.json", JSON.stringify(emails), err => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+        });
+    });
+    res.send({ status: "OK" });
+});
 
-// server.listen(8080, () => {
-//     console.log(`Server is listening on port 8080`);
-// });
+app.get("/api/getEmails", (req, res) => {
+    try {
+        const imap = new Imap(imapConfig);
+
+        imap.once("ready", () => {
+            imap.openBox("INBOX", false, () => {
+                imap.search(["ALL"], (err, response) => {
+                    const f = imap.fetch(response, { bodies: "" });
+                    f.on("message", msg => {
+                        msg.on("body", stream => {
+                            simpleParser(stream, (err, parsed) => {
+                                addEmail(parsed);
+                            });
+                        });
+                    });
+                });
+            });
+        });
+
+        imap.once("end", () => {
+            fs.readFile("./static/data.json", (err, data) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                const emails = JSON.parse(data);
+                res.send(emails);
+            });
+        });
+
+        imap.connect();
+    } catch (e) {
+        res.send({ status: e.message });
+    }
+});
+
+app.post("/api/sendEmail", jsonParser, async function (req, res) {
+    try {
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            auth: {
+                user: "metlov.nm@gmail.com",
+                pass: "ptcl huvs phea uoqq",
+            },
+        });
+
+        const { recipient, theme, text } = req.body;
+        await transporter.sendMail({
+            from: "metlov.nm@gmail.com",
+            to: recipient,
+            subject: theme,
+            text: text,
+        });
+
+        return res.status(200).send({
+            message: `Вы отправили письмо ${recipient}`,
+        });
+    } catch (e) {
+        return res.status(500).send({
+            status: 500,
+            message: e.message,
+        });
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`linked by http://localhost:${PORT}`);
+});

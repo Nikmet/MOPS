@@ -24,6 +24,8 @@
     },
     "dependencies": {
         "express": "^4.19.2",
+        "imap": "^0.8.19",
+        "mailparser": "^3.7.1",
         "on-change": "^5.0.1"
     }
 }
