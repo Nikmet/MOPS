@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const Imap = require("imap");
 const inspect = require("util").inspect;
 const fs = require("fs");
-const cors = require("cors");
 
 const app = express();
 const jsonParser = bodyParser.json();
@@ -98,10 +97,8 @@ app.get("/dist/app.js", (req, res) => {
     res.sendFile(path.resolve(__dirname, "dist", "app.js"));
 });
 
-app.use(cors());
 app.get("/api/getEmails", async (req, res) => {
     try {
-        res.header("Access-Control-Allow-Origin", "http://localhost:8000");
         let mailServer1 = new Imap({
             user: myMail,
             password: myPwd,
@@ -166,80 +163,3 @@ app.listen(PORT, () => {
     console.log(`linked by http://localhost:${PORT}`);
 });
 
-// app.get("/api/clearData", (req, res) => {
-//     fs.readFile("./static/data.json", (err, data) => {
-//         if (err) {
-//             console.error(err);
-//             return;
-//         }
-//         const emails = JSON.parse(data);
-
-//         emails.data = [];
-
-//         fs.writeFile("./static/data.json", JSON.stringify(emails), err => {
-//             if (err) {
-//                 console.error(err);
-//                 return;
-//             }
-//         });
-//     });
-//     res.send({ status: "OK" });
-// });
-
-// app.get("/api/getEmails", async (req, res) => {
-//     try {
-//         let mailServer1 = new Imap({
-//             user: myMail,
-//             password: myPwd,
-//             host: "imap.gmail.com",
-//             port: 993,
-//             tls: true,
-//             tlsOptions: {
-//                 rejectUnauthorized: false,
-//             },
-//             authTimeout: 3000,
-//         });
-
-//         await mailServer1.once("ready", function () {
-//             mailServer1.openBox("INBOX", true, function (err, box) {
-//                 if (err) throw err;
-//                 console.log("message", "server1 ready");
-//             });
-//         });
-
-//         await getEmailFromInbox(mailServer1);
-
-//         mailServer1.once("end", () => {
-//             res.send("OK");
-//         });
-
-//         mailServer1.connect();
-//     } catch (e) {
-//         res.send(e);
-//     }
-// });
-
-// function addEmail(parsed) {
-//     fs.readFile("./static/data.json", (err, data) => {
-//         if (err) {
-//             console.error(err);
-//             return;
-//         }
-//         const emails = JSON.parse(data);
-
-//         const email = {
-//             sender: parsed.from.value[0].address,
-//             theme: parsed.subject,
-//             favorites: false,
-//         };
-
-//         emails.data.push(email);
-
-//         fs.writeFile("./static/data.json", JSON.stringify(emails), err => {
-//             if (err) {
-//                 console.error(err);
-//                 return;
-//             }
-//         });
-//     });
-// }
