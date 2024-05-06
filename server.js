@@ -5,41 +5,16 @@ const bodyParser = require("body-parser");
 const Imap = require("imap");
 const inspect = require("util").inspect;
 const fs = require("fs");
+const cors = require("cors");
 
 const app = express();
 const jsonParser = bodyParser.json();
 
 const PORT = 3000;
 
-// function addEmail(parsed) {
-//     fs.readFile("./static/data.json", (err, data) => {
-//         if (err) {
-//             console.error(err);
-//             return;
-//         }
-//         const emails = JSON.parse(data);
-
-//         const email = {
-//             sender: parsed.from.value[0].address,
-//             theme: parsed.subject,
-//             favorites: false,
-//         };
-
-//         emails.data.push(email);
-
-//         fs.writeFile("./static/data.json", JSON.stringify(emails), err => {
-//             if (err) {
-//                 console.error(err);
-//                 return;
-//             }
-//         });
-//     });
-// }
-
 const myMail = "metlov.nm@gmail.com";
 const myPwd = "ptcl huvs phea uoqq";
 let emails = [];
-let IMAPended = false;
 
 function saveDataToFile(data, fileName) {
     return new Promise((resolve, reject) => {
@@ -101,39 +76,6 @@ let getEmailFromInbox = async mailServer => {
     });
 };
 
-// app.get("/api/getEmails", async (req, res) => {
-//     try {
-//         let mailServer1 = new Imap({
-//             user: myMail,
-//             password: myPwd,
-//             host: "imap.gmail.com",
-//             port: 993,
-//             tls: true,
-//             tlsOptions: {
-//                 rejectUnauthorized: false,
-//             },
-//             authTimeout: 3000,
-//         });
-
-//         await mailServer1.once("ready", function () {
-//             mailServer1.openBox("INBOX", true, function (err, box) {
-//                 if (err) throw err;
-//                 console.log("message", "server1 ready");
-//             });
-//         });
-
-//         await getEmailFromInbox(mailServer1);
-
-//         mailServer1.once("end", () => {
-//             res.send("OK");
-//         });
-
-//         mailServer1.connect();
-//     } catch (e) {
-//         res.send(e);
-//     }
-// });
-
 app.use(express.static(path.resolve(__dirname, "static")));
 
 app.get("/", (req, res) => {
@@ -156,28 +98,10 @@ app.get("/dist/app.js", (req, res) => {
     res.sendFile(path.resolve(__dirname, "dist", "app.js"));
 });
 
-// app.get("/api/clearData", (req, res) => {
-//     fs.readFile("./static/data.json", (err, data) => {
-//         if (err) {
-//             console.error(err);
-//             return;
-//         }
-//         const emails = JSON.parse(data);
-
-//         emails.data = [];
-
-//         fs.writeFile("./static/data.json", JSON.stringify(emails), err => {
-//             if (err) {
-//                 console.error(err);
-//                 return;
-//             }
-//         });
-//     });
-//     res.send({ status: "OK" });
-// });
-
+app.use(cors());
 app.get("/api/getEmails", async (req, res) => {
     try {
+        res.header("Access-Control-Allow-Origin", "http://localhost:8000");
         let mailServer1 = new Imap({
             user: myMail,
             password: myPwd,
@@ -193,24 +117,15 @@ app.get("/api/getEmails", async (req, res) => {
         });
 
         mailServer1.once("ready", async function () {
-            mailServer1.openBox("INBOX", true, function (err, box) {
+            mailServer1.openBox("INBOX", true, async function (err, box) {
                 if (err) throw err;
+                await getEmailFromInbox(mailServer1);
                 console.log("message", "server1 ready");
             });
-
-            await getEmailFromInbox(mailServer1);
         });
 
-        mailServer1.once("end", () => {
-            IMAPended = true;
-        });
-
-        if (!IMAPended) mailServer1.connect();
-        else {
-            mailServer1.close();
-            IMAPended = false;
-            return res.send("OK");
-        }
+        mailServer1.connect();
+        return res.send(JSON.stringify("OK"));
     } catch (e) {
         return res.send(e);
     }
@@ -250,3 +165,81 @@ app.post("/api/sendEmail", jsonParser, async function (req, res) {
 app.listen(PORT, () => {
     console.log(`linked by http://localhost:${PORT}`);
 });
+
+// app.get("/api/clearData", (req, res) => {
+//     fs.readFile("./static/data.json", (err, data) => {
+//         if (err) {
+//             console.error(err);
+//             return;
+//         }
+//         const emails = JSON.parse(data);
+
+//         emails.data = [];
+
+//         fs.writeFile("./static/data.json", JSON.stringify(emails), err => {
+//             if (err) {
+//                 console.error(err);
+//                 return;
+//             }
+//         });
+//     });
+//     res.send({ status: "OK" });
+// });
+
+// app.get("/api/getEmails", async (req, res) => {
+//     try {
+//         let mailServer1 = new Imap({
+//             user: myMail,
+//             password: myPwd,
+//             host: "imap.gmail.com",
+//             port: 993,
+//             tls: true,
+//             tlsOptions: {
+//                 rejectUnauthorized: false,
+//             },
+//             authTimeout: 3000,
+//         });
+
+//         await mailServer1.once("ready", function () {
+//             mailServer1.openBox("INBOX", true, function (err, box) {
+//                 if (err) throw err;
+//                 console.log("message", "server1 ready");
+//             });
+//         });
+
+//         await getEmailFromInbox(mailServer1);
+
+//         mailServer1.once("end", () => {
+//             res.send("OK");
+//         });
+
+//         mailServer1.connect();
+//     } catch (e) {
+//         res.send(e);
+//     }
+// });
+
+// function addEmail(parsed) {
+//     fs.readFile("./static/data.json", (err, data) => {
+//         if (err) {
+//             console.error(err);
+//             return;
+//         }
+//         const emails = JSON.parse(data);
+
+//         const email = {
+//             sender: parsed.from.value[0].address,
+//             theme: parsed.subject,
+//             favorites: false,
+//         };
+
+//         emails.data.push(email);
+
+//         fs.writeFile("./static/data.json", JSON.stringify(emails), err => {
+//             if (err) {
+//                 console.error(err);
+//                 return;
+//             }
+//         });
+//     });
+// }

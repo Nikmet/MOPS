@@ -1,7 +1,1 @@
-[
-    { "theme": "Привет", "sender": "metlov.nm@yandex.ru", "isFavorite": false },
-    { "theme": "Тема тема ", "sender": "metlov.nm@yandex.ru", "isFavorite": false },
-    { "theme": "Hi, I'm email", "sender": "metlov.nm@yandex.ru", "isFavorite": false },
-    { "theme": "Новая тема письма ", "sender": "metlov.nm@yandex.ru", "isFavorite": false },
-    { "theme": "Пожалуйста, будь последним ", "sender": "metlov.nm@yandex.ru", "isFavorite": true }
-]
+[{"theme":"Привет","sender":"metlov.nm@yandex.ru","isFavorite":false},{"theme":"Тема тема ","sender":"metlov.nm@yandex.ru","isFavorite":false},{"theme":"Hi, I'm email","sender":"metlov.nm@yandex.ru","isFavorite":false},{"theme":"Новая тема письма ","sender":"metlov.nm@yandex.ru","isFavorite":false},{"theme":"Пожалуйста, будь последним ","sender":"metlov.nm@yandex.ru","isFavorite":false},{"theme":"ЧТо?","sender":"metlov.nm@yandex.ru","isFavorite":false},{"theme":"Что произошло?","sender":"metlov.nm@yandex.ru","isFavorite":false}]
