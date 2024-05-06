@@ -10,10 +10,10 @@ export class EmailslList extends Component {
         this.appState = appState;
     }
 
-    async getData(type) {
-        const response = await fetch(`./${type}.json`);
+    async getData() {
+        const response = await fetch(`./static/data.json`);
         const data = await response.json();
-        return data.data;
+        return data;
     }
 
     async render() {
@@ -29,10 +29,15 @@ export class EmailslList extends Component {
         this.element.insertAdjacentHTML("beforeend", html);
 
         try {
-            const clearFetch = await fetch("/api/clearData");
-            const getFetch = await fetch("/api/getEmails");
+            // const clearFetch = await fetch("/api/clearData");
+            // await fetch("/api/getEmails", {
+            //     method: "GET",
+            //     headers: {
+            //         "Content-Type": "text/plain",
+            //     },
+            // });
 
-            const data = await this.getData("data");
+            const data = await this.getData();
 
             if (this.appState.filterQuery !== "") {
                 this.#filterData = data.filter(email => {

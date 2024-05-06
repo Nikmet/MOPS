@@ -27,7 +27,7 @@ export class Email extends Component {
                     <img src="./spam.svg" alt="spam">                
                 </button>
                 <button class="email__buttons-favorites">
-                    ${this.data.favorites ? '<img src="./favorites-done.svg" alt="favorites">' : '<img src="./favorites.svg" alt="favorites">'}        
+                    ${this.data.isFavorite ? '<img src="./favorites-done.svg" alt="favorites">' : '<img src="./favorites.svg" alt="favorites">'}        
                 </button>
                 <button class="email__buttons-delete">
                     <img src="./close-brown.svg" alt="delete">                
